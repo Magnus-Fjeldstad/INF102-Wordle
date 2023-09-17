@@ -1,6 +1,8 @@
 package no.uib.inf102.wordle.model.word;
 
 import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
 import no.uib.inf102.wordle.resources.GetWords;
 
@@ -17,6 +19,7 @@ public class WordleAnswer {
 
     /**
      * Creates a WordleAnswer object with a given word.
+     * 
      * @param answer
      */
     public WordleAnswer(String answer) {
@@ -37,7 +40,7 @@ public class WordleAnswer {
      */
     public WordleAnswer(Random random) {
         this(getRandomWordleAnswer(random));
-	}
+    }
 
     /**
      * Gets a random wordle answer
@@ -83,13 +86,28 @@ public class WordleAnswer {
             throw new IllegalArgumentException("Guess and answer must have same number of letters but guess = " + guess
                     + " and answer = " + answer);
 
-        //TODO: fix this method
-        
-        AnswerType[] feedback = new AnswerType[5];
-        for (int i=0; i<wordLength; i++) {
-            feedback[i] = AnswerType.WRONG;
+        // TODO: fix this method
+
+        Map<Integer, Character> guessMap  = new HashMap<>();
+        Map<Integer, Character> answerMap  = new HashMap<>();
+
+        for (int i = 0; i < wordLength; i++) {
+            guessMap.put(i, guess.charAt(i));
+            answerMap.put(i, answer.charAt(i));
         }
 
-        return new WordleWord(guess,feedback);
+        AnswerType[] feedback = new AnswerType[wordLength];
+        for (int i = 0; i < wordLength; i++) {
+            if (guessMap.get(i) == answerMap.get(i)) {
+                feedback[i] = AnswerType.CORRECT;
+            }
+            //TODO implement a method to check if there ar unmatched chars
+            //If the answer is STARS and the guess is SSTRA
+            //It should be CORRECT, WRONG, CORRECT, WRONG_POSITON, WRONG_POSITON
+            else{
+                feedback[i] = AnswerType.WRONG;
+            }
+        }
+        return new WordleWord(guess, feedback);
     }
 }
