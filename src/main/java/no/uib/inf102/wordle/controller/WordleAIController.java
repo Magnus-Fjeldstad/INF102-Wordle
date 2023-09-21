@@ -31,8 +31,8 @@ public class WordleAIController implements KeyListener {
         this.timer = new Timer(model.getTimerDelay(), this::clockTick);
 
         //this.AI = new RandomStrategy();
-        this.AI = new EliminateStrategy();
-        //this.AI = new FrequencyStrategy();
+        //this.AI = new EliminateStrategy();
+        this.AI = new FrequencyStrategy();
 
         view.addKeyListener(this);
         view.setFocusable(true);
