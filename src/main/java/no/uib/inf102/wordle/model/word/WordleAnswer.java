@@ -12,7 +12,6 @@ import no.uib.inf102.wordle.resources.GetWords;
  * The answer must be one of the words in the LEGAL_WORDLE_LIST.
  */
 public class WordleAnswer {
-
     private final String WORD;
 
     private static Random random = new Random();
@@ -86,27 +85,32 @@ public class WordleAnswer {
             throw new IllegalArgumentException("Guess and answer must have same number of letters but guess = " + guess
                     + " and answer = " + answer);
 
-        // TODO: fix this method
-
-        Map<Integer, Character> guessMap  = new HashMap<>();
-        Map<Integer, Character> answerMap  = new HashMap<>();
+        Map<Character, Integer> answerChars = new HashMap<>();
 
         for (int i = 0; i < wordLength; i++) {
-            guessMap.put(i, guess.charAt(i));
-            answerMap.put(i, answer.charAt(i));
+            answerChars.put(answer.charAt(i), answerChars.getOrDefault(answer.charAt(i), 0) + 1);
         }
 
         AnswerType[] feedback = new AnswerType[wordLength];
         for (int i = 0; i < wordLength; i++) {
-            if (guessMap.get(i) == answerMap.get(i)) {
+            char guessChar = guess.charAt(i);
+
+            if (guessChar == answer.charAt(i)) {
+                answerChars.put(guessChar,  answerChars.get(guessChar) - 1);
                 feedback[i] = AnswerType.CORRECT;
-            }
-            //TODO implement a method to check if there ar unmatched chars
-            //If the answer is STARS and the guess is SSTRA
-            //It should be CORRECT, WRONG, CORRECT, WRONG_POSITON, WRONG_POSITON
-            else{
+            } else {
                 feedback[i] = AnswerType.WRONG;
             }
+        }
+
+        for (int i = 0; i < wordLength; i++) {
+            char guessChar = guess.charAt(i);
+
+            if (feedback[i] == AnswerType.WRONG && answerChars.getOrDefault(guessChar, 0) > 0) {
+                answerChars.put(guessChar, answerChars.get(guessChar) - 1);
+                feedback[i] = AnswerType.WRONG_POSITION;
+            }
+            
         }
         return new WordleWord(guess, feedback);
     }

@@ -11,7 +11,8 @@ import no.uib.inf102.wordle.resources.GetWords;
 
 /**
  * This class describes a structure of two lists for a game of Wordle: The list
- * of words that can be used as guesses and the list of words that can be possible answers.
+ * of words that can be used as guesses and the list of words that can be
+ * possible answers.
  */
 public class WordleWordList {
 
@@ -80,15 +81,28 @@ public class WordleWordList {
 	public List<String> possibleAnswers() {
 		return possibleAnswers;
 	}
+	
+
+
 
 	/**
-	 * Eliminates words from the possible answers list using the given
-	 * <code>feedback</code>
+	 * Eliminates words from the possible answers list using the given feedback.
 	 * 
-	 * @param feedback
+	 * isPossibleWord uses two O(n) functions from different classes:
+	 * - {@link WordleAnswer#matchWords(String, String) WordleAnswer.matchWords}
+	 * - {@link WordleWord#getWordsString() WordleWord.getWordsString}
+	 * 
+	 * @param feedback The feedback to use for eliminating words.
 	 */
 	public void eliminateWords(WordleWord feedback) {
-		//TODO implement this
+		List<String> filteredPossibleAnswers = new ArrayList<>();
+
+		for (String currentGuess : possibleAnswers) {// O(n)
+			if (WordleWord.isPossibleWord(currentGuess, feedback)) {
+				filteredPossibleAnswers.add(currentGuess);
+			}
+		}
+		possibleAnswers = filteredPossibleAnswers;
 	}
 
 	/**
@@ -112,6 +126,7 @@ public class WordleWordList {
 
 	/**
 	 * Returns the word length in the list of valid guesses.
+	 * 
 	 * @return
 	 */
 	public int wordLength() {

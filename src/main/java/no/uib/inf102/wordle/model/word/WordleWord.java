@@ -124,7 +124,7 @@ public class WordleWord implements Iterable<WordleCharacter> {
         return Objects.hash(word);
     }
 
-    @Override
+    @Override 
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
