@@ -7,6 +7,7 @@ import javax.swing.Timer;
 
 import no.uib.inf102.wordle.controller.AI.EliminateStrategy;
 import no.uib.inf102.wordle.controller.AI.IStrategy;
+import no.uib.inf102.wordle.controller.AI.MyAi;
 import no.uib.inf102.wordle.controller.AI.RandomStrategy;
 import no.uib.inf102.wordle.controller.AI.FrequencyStrategy;
 import no.uib.inf102.wordle.model.GameState;
@@ -32,6 +33,7 @@ public class WordleAIController implements KeyListener {
 
         //this.AI = new RandomStrategy();
         //this.AI = new EliminateStrategy();
+        //this.AI = new MyAi();
         this.AI = new FrequencyStrategy();
 
         view.addKeyListener(this);

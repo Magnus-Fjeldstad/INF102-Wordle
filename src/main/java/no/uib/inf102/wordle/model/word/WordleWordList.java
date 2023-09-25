@@ -1,11 +1,11 @@
 package no.uib.inf102.wordle.model.word;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import no.uib.inf102.wordle.resources.GetWords;
 
@@ -132,4 +132,53 @@ public class WordleWordList {
 	public int wordLength() {
 		return allWords.get(0).length();
 	}
+
+	/**
+	 * 
+	 * @param possibleAnswers takes in a WordleWordList of possible answers
+	 * @return a list of maps where each map tracks the most frequent chars at each index
+	 */
+	public List<Map<Character, Integer>> mapCommonLetters(List<String> possibleAnswers) {
+		List<Map<Character, Integer>> charCountMapsList = new ArrayList<>();
+	
+		for (int i = 0; i < wordLength(); i++) {
+			charCountMapsList.add(new HashMap<>());
+		}
+	
+		for (String word : possibleAnswers) {
+			for (int i = 0; i < wordLength(); i++) {
+				char c = word.charAt(i);
+				charCountMapsList.get(i).put(c, charCountMapsList.get(i).getOrDefault(c, 0) + 1);
+			}
+		}
+		return charCountMapsList;
+	}
+	
+	/**
+	 * 
+	 * @return the best possible word given the possible answers
+	 */
+	public String getBestWord() {
+		List<Map<Character, Integer>> charCountMapsList = mapCommonLetters(possibleAnswers());
+		String bestWord = "";
+		int highScore = -1;
+	
+	
+		for (String word : possibleAnswers()) {
+			int wordPoints = 0;
+	
+			for (int currentMap = 0; currentMap < charCountMapsList.size(); currentMap++) {
+				char c = word.charAt(currentMap);
+				wordPoints += charCountMapsList.get(currentMap).getOrDefault(c, 0);
+			}
+	
+			if (wordPoints > highScore) {
+				highScore = wordPoints;
+				bestWord = word;
+			}
+		}
+	
+		return bestWord;
+	}
+
 }

@@ -42,7 +42,6 @@ public class WordleHumanController implements KeyListener {
         else if (e.getKeyCode() == KeyEvent.VK_1) {
             model.reset();
         }
-        
         view.repaint();
     }
 
