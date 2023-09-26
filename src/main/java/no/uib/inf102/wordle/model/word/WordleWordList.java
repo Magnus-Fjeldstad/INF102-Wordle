@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+
 import no.uib.inf102.wordle.resources.GetWords;
 
 /**
@@ -81,9 +82,6 @@ public class WordleWordList {
 	public List<String> possibleAnswers() {
 		return possibleAnswers;
 	}
-	
-
-
 
 	/**
 	 * Eliminates words from the possible answers list using the given feedback.
@@ -95,11 +93,15 @@ public class WordleWordList {
 	 * @param feedback The feedback to use for eliminating words.
 	 */
 	public void eliminateWords(WordleWord feedback) {
+		if (feedback == null) {
+			return;
+		}
+
 		List<String> filteredPossibleAnswers = new ArrayList<>();
 
-		for (String currentGuess : possibleAnswers) {// O(n)
-			if (WordleWord.isPossibleWord(currentGuess, feedback)) {
-				filteredPossibleAnswers.add(currentGuess);
+		for (String currentGuess : possibleAnswers) {// O(m)
+			if (WordleWord.isPossibleWord(currentGuess, feedback)) { //O(1)
+				filteredPossibleAnswers.add(currentGuess); //O(1)
 			}
 		}
 		possibleAnswers = filteredPossibleAnswers;
@@ -136,15 +138,16 @@ public class WordleWordList {
 	/**
 	 * 
 	 * @param possibleAnswers takes in a WordleWordList of possible answers
-	 * @return a list of maps where each map tracks the most frequent chars at each index
+	 * @return a list of maps where each map tracks the most frequent chars at each
+	 *         index
 	 */
-	public List<Map<Character, Integer>> mapCommonLetters(List<String> possibleAnswers) {
-		List<Map<Character, Integer>> charCountMapsList = new ArrayList<>();
-	
+	private List<HashMap<Character, Integer>> mapCommonLetters(List<String> possibleAnswers) {
+		List<HashMap<Character, Integer>> charCountMapsList = new ArrayList<>();
+
 		for (int i = 0; i < wordLength(); i++) {
 			charCountMapsList.add(new HashMap<>());
 		}
-	
+
 		for (String word : possibleAnswers) {
 			for (int i = 0; i < wordLength(); i++) {
 				char c = word.charAt(i);
@@ -153,32 +156,33 @@ public class WordleWordList {
 		}
 		return charCountMapsList;
 	}
-	
+
 	/**
 	 * 
 	 * @return the best possible word given the possible answers
 	 */
 	public String getBestWord() {
-		List<Map<Character, Integer>> charCountMapsList = mapCommonLetters(possibleAnswers());
+		List<HashMap<Character, Integer>> charCountMapsList = mapCommonLetters(possibleAnswers());
+		HashMap<String, Integer> wordMap = new HashMap<>();
 		String bestWord = "";
 		int highScore = -1;
-	
-	
+
 		for (String word : possibleAnswers()) {
 			int wordPoints = 0;
-	
+
 			for (int currentMap = 0; currentMap < charCountMapsList.size(); currentMap++) {
 				char c = word.charAt(currentMap);
 				wordPoints += charCountMapsList.get(currentMap).getOrDefault(c, 0);
 			}
-	
+			
 			if (wordPoints > highScore) {
 				highScore = wordPoints;
 				bestWord = word;
+				wordMap.put(bestWord, wordPoints);
 			}
+		
 		}
-	
+		//System.out.println(wordMap);
 		return bestWord;
 	}
-
 }

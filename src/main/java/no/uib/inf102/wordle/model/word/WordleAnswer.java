@@ -2,7 +2,6 @@ package no.uib.inf102.wordle.model.word;
 
 import java.util.Random;
 import java.util.HashMap;
-import java.util.Map;
 
 import no.uib.inf102.wordle.resources.GetWords;
 
@@ -85,7 +84,7 @@ public class WordleAnswer {
             throw new IllegalArgumentException("Guess and answer must have same number of letters but guess = " + guess
                     + " and answer = " + answer);
 
-        Map<Character, Integer> answerChars = new HashMap<>();
+        HashMap<Character, Integer> answerChars = new HashMap<>();
 
         for (int i = 0; i < wordLength; i++) {
             answerChars.put(answer.charAt(i), answerChars.getOrDefault(answer.charAt(i), 0) + 1);

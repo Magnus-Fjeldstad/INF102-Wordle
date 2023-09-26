@@ -33,8 +33,8 @@ public class WordleAIController implements KeyListener {
 
         //this.AI = new RandomStrategy();
         //this.AI = new EliminateStrategy();
-        //this.AI = new MyAi();
-        this.AI = new FrequencyStrategy();
+        this.AI = new MyAi();
+        //this.AI = new FrequencyStrategy();
 
         view.addKeyListener(this);
         view.setFocusable(true);
