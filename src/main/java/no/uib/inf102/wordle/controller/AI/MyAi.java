@@ -3,17 +3,12 @@ package no.uib.inf102.wordle.controller.AI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import no.uib.inf102.wordle.model.word.AnswerType;
 import no.uib.inf102.wordle.model.word.WordleCharacter;
 import no.uib.inf102.wordle.model.word.WordleWord;
 import no.uib.inf102.wordle.model.word.WordleWordList;
-/*
- * Gjør et guess på den originale listen
- * Lag en kopi av den originale listen der man i tilleg fjerner alle grønne grå bokstavene
- * gjør et nytt guess på den originale listen med det beste ordet basert på den kopierte listen
- * Fortsett slik til man finner det beste ordet.
- */
 
 public class MyAi implements IStrategy {
 
@@ -32,20 +27,16 @@ public class MyAi implements IStrategy {
     public String makeGuess(WordleWord feedback) {
         if (feedback != null) {
             guesses.eliminateWords(feedback);
-            copyList.eliminateWords(feedback);
-            confimredPostions(feedback);
-            System.out.println("this is green" + confirmedGreen);
-            System.out.println("this is yellow" + confirmedYellow);
-        }
-        if (guessCount == 0) {
-            guessCount++;
-            return guesses.getBestWord();
-        }
-        if (guessCount == 1) {
-            guessCount++;
+            copyList = eliminateGreenAsGrey(copyList, feedback);
+            confirmedPositions(feedback);
             removeGreenFromCopyList();
+        }
+
+        if (guessCount == 1) {
+            System.out.println("CopyListPossible answers "+copyList.possibleAnswers());
             return copyList.getBestWord();
         }
+        guessCount ++;
 
         return guesses.getBestWord();
     }
@@ -76,12 +67,12 @@ public class MyAi implements IStrategy {
     @Override
     public void reset() {
         guesses = new WordleWordList();
-        copyList = new WordleWordList();
+        copyList = new WordleWordList(guesses.possibleAnswers());
         confirmedGreen = new HashMap<>();
         confirmedYellow = new HashMap<>();
     }
 
-    private void confimredPostions(WordleWord feedback) {
+    private void confirmedPositions(WordleWord feedback) {
         int index = 0;
         for (WordleCharacter wc : feedback) {
             if (wc.answerType == AnswerType.CORRECT) {
@@ -93,4 +84,36 @@ public class MyAi implements IStrategy {
             index++;
         }
     }
+
+
+
+    private WordleWordList eliminateGreenAsGrey(WordleWordList wordList, WordleWord feedback) {
+        if (feedback == null) {
+            return wordList;
+        }
+    
+        List<String> filteredPossibleAnswers = new ArrayList<>();
+    
+        for (String currentGuess : wordList.possibleAnswers()) {
+            boolean validWord = true;
+    
+            for (Map.Entry<Character, Integer> entry : confirmedGreen.entrySet()) {
+                char greenLetter = entry.getKey();
+                int greenPosition = entry.getValue();
+    
+                if (currentGuess.length() <= greenPosition || // Check if the word is long enough
+                    currentGuess.charAt(greenPosition) != greenLetter || // If the letter at the confirmed position is different
+                    currentGuess.indexOf(greenLetter) != greenPosition) { // or if the letter exists elsewhere
+                    validWord = false;
+                    break;
+                }
+            }
+    
+            if (validWord) {
+                filteredPossibleAnswers.add(currentGuess);
+            }
+        }
+    
+        return new WordleWordList(filteredPossibleAnswers);
+    }    
 }
