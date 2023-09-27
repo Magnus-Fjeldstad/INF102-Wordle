@@ -19,7 +19,7 @@ public class FrequencyStrategy implements IStrategy {
         if (feedback != null) {
             guesses.eliminateWords(feedback);
         }
-       return guesses.getBestWord();
+       return guesses.getBestWord(guesses.possibleAnswers());
     }
 
     @Override

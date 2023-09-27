@@ -161,13 +161,13 @@ public class WordleWordList {
 	 * 
 	 * @return the best possible word given the possible answers
 	 */
-	public String getBestWord() {
-		List<HashMap<Character, Integer>> charCountMapsList = mapCommonLetters(possibleAnswers());
+	public String getBestWord(List<String> wordList) {
+		List<HashMap<Character, Integer>> charCountMapsList = mapCommonLetters(wordList);
 		HashMap<String, Integer> wordMap = new HashMap<>();
 		String bestWord = "";
 		int highScore = -1;
 
-		for (String word : possibleAnswers()) {
+		for (String word : wordList) {
 			int wordPoints = 0;
 
 			for (int currentMap = 0; currentMap < charCountMapsList.size(); currentMap++) {
