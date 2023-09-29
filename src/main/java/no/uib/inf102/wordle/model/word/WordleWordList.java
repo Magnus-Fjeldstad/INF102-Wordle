@@ -141,7 +141,7 @@ public class WordleWordList {
 	 * @return a list of maps where each map tracks the most frequent chars at each
 	 *         index
 	 */
-	private List<HashMap<Character, Integer>> mapCommonLetters(List<String> possibleAnswers) {
+	public List<HashMap<Character, Integer>> mapCommonLetters(List<String> possibleAnswers) {
 		List<HashMap<Character, Integer>> charCountMapsList = new ArrayList<>();
 
 		for (int i = 0; i < wordLength(); i++) {
@@ -161,13 +161,12 @@ public class WordleWordList {
 	 * 
 	 * @return the best possible word given the possible answers
 	 */
-	public String getBestWord(List<String> wordList) {
-		List<HashMap<Character, Integer>> charCountMapsList = mapCommonLetters(wordList);
-		HashMap<String, Integer> wordMap = new HashMap<>();
+	public String getBestWord() {
+		List<HashMap<Character, Integer>> charCountMapsList = mapCommonLetters(possibleAnswers());
 		String bestWord = "";
 		int highScore = -1;
 
-		for (String word : wordList) {
+		for (String word : possibleAnswers()) {
 			int wordPoints = 0;
 
 			for (int currentMap = 0; currentMap < charCountMapsList.size(); currentMap++) {
@@ -178,11 +177,11 @@ public class WordleWordList {
 			if (wordPoints > highScore) {
 				highScore = wordPoints;
 				bestWord = word;
-				wordMap.put(bestWord, wordPoints);
 			}
 		
 		}
 		//System.out.println(wordMap);
 		return bestWord;
 	}
+	
 }

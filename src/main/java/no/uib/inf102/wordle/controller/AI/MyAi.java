@@ -2,8 +2,10 @@ package no.uib.inf102.wordle.controller.AI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import no.uib.inf102.wordle.model.word.AnswerType;
 import no.uib.inf102.wordle.model.word.WordleCharacter;
@@ -27,29 +29,34 @@ public class MyAi implements IStrategy {
     public String makeGuess(WordleWord feedback) {
         if (feedback != null) {
             guesses.eliminateWords(feedback);
-            copyList.eliminateWords(feedback);
             copyList = eliminateGreenAsGrey(copyList, feedback);
             confirmedPositions(feedback);
             removeGreenFromCopyList();
+            removeGreyFromCopyList(feedback);
             removeWordsWithoutYellowFromCopyList();
         }
 
         if (guessCount == 0) {
             guessCount++;
-            return orate();
-            //return guesses.getBestWord(guesses.possibleAnswers());
-        } 
-        if (guessCount == 1 || guessCount == 2 && confirmedGreen.size() <= 1 && confirmedYellow.size() <= 1) {
-            if (copyList.size()!=0) {
-                guessCount++;
-                return copyList.getBestWord(guesses.getAllWords());
+            return guesses.getBestWord();
+        }
+
+        if (confirmedGreen.size() >= 1
+                || (confirmedYellow.size() >= 1 && confirmedGreen.size() < 3 && confirmedYellow.size() < 3)) {
+            // Prioritize words with at least one "WRONG_POSITION" (yellow) letter for the
+            // second guess
+            if (copyList.size() != 0) {
+                String secondGuess = getBestWordWithYellowForSecondGuess(feedback);
+                if (secondGuess != null) {
+                    guessCount++;
+                    return secondGuess;
+                }
             }
         }
-        //System.out.println("Best word form all words: "+copyList.getBestWord(copyList.getAllWords()));
 
-        guessCount++;
-        // If copyList is empty, fall back to using guesses.
-        return guesses.getBestWord(guesses.possibleAnswers());
+        // If copyList is empty or there are no words with yellow letters in feedback
+        // positions, fall back to using guesses.
+        return guesses.getBestWord();
     }
 
     private void removeGreenFromCopyList() {
@@ -171,7 +178,94 @@ public class MyAi implements IStrategy {
         }
         return false;
     }
-    public String orate() {
-        return "orate";
+
+    private String getBestWordWithYellowLetter() {
+        List<HashMap<Character, Integer>> charCountMapsList = guesses.mapCommonLetters(guesses.getAllWords());
+        HashMap<String, Integer> wordMap = new HashMap<>();
+        String bestWord = "";
+        int highScore = -1;
+
+        for (String word : guesses.getAllWords()) {
+            int wordPoints = 0;
+
+            for (int currentMap = 0; currentMap < charCountMapsList.size(); currentMap++) {
+                char c = word.charAt(currentMap);
+                wordPoints += charCountMapsList.get(currentMap).getOrDefault(c, 0);
+            }
+
+            if (wordPoints > highScore) {
+                highScore = wordPoints;
+                bestWord = word;
+                wordMap.put(bestWord, wordPoints);
+            }
+        }
+
+        return bestWord;
+    }
+
+    public String getBestWordWithYellowForSecondGuess(WordleWord feedback) {
+        List<String> possibleWords = guesses.getAllWords();
+
+        String previousGuess = guesses.getBestWord(); // Get the previous guess
+
+        if (feedback != null) {
+            List<String> wordsWithYellowInFeedbackPosition = new ArrayList<>();
+
+            for (String word : possibleWords) {
+                if (containsYellowLetterInFeedbackPosition(word, feedback) && !containsGreyLetter(word, feedback)
+                        && hasNoDuplicateCharacters(word) && !hasYellowInSamePosition(word, previousGuess, feedback)) {
+                    wordsWithYellowInFeedbackPosition.add(word);
+                }
+            }
+
+            if (!wordsWithYellowInFeedbackPosition.isEmpty()) {
+                // Prioritize words with yellow letters in feedback positions, no grey letters,
+                // no duplicate characters, and no yellow in the same position as the previous
+                // guess
+                return wordsWithYellowInFeedbackPosition.get(0); // Choose the first suitable word
+            }
+        }
+
+        // Fall back to the original method if no suitable words are found
+        return getBestWordWithYellowLetter();
+    }
+
+    // Add this method to check if a word has no duplicate characters
+    private boolean hasNoDuplicateCharacters(String word) {
+        Set<Character> seenCharacters = new HashSet<>();
+        for (char c : word.toCharArray()) {
+            if (seenCharacters.contains(c)) {
+                return false; // Found a duplicate character
+            }
+            seenCharacters.add(c);
+        }
+        return true; // No duplicate characters found
+    }
+
+    // Add this method to check if yellow letters are not in the same position as
+    // the previous guess
+    private boolean hasYellowInSamePosition(String currentGuess, String previousGuess, WordleWord feedback) {
+        for (WordleCharacter wc : feedback) {
+            if (wc.answerType == AnswerType.WRONG_POSITION) {
+                int position = confirmedYellow.getOrDefault(wc.letter, -1);
+                if (position >= 0 && position < currentGuess.length() && currentGuess.charAt(position) == wc.letter) {
+                    return true; // Yellow in the same position as the previous guess
+                }
+            }
+        }
+        return false; // No yellow in the same position as the previous guess
+    }
+
+    // Add this method to check for yellow letters in feedback positions
+    private boolean containsYellowLetterInFeedbackPosition(String word, WordleWord feedback) {
+        for (WordleCharacter wc : feedback) {
+            if (wc.answerType == AnswerType.WRONG_POSITION) {
+                int position = confirmedYellow.getOrDefault(wc.letter, -1);
+                if (position >= 0 && position < word.length() && word.charAt(position) == wc.letter) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

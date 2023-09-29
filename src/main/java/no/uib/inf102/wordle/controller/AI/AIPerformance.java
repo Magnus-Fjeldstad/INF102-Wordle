@@ -16,7 +16,7 @@ import no.uib.inf102.wordle.model.word.WordleWord;
  */
 public class AIPerformance {
 
-    public static final int N_GAMES = 200;
+    public static final int N_GAMES = 20000;
     public static final int MAX_N_GUESSES = 20;
     static long seed = 14212l;
 
@@ -26,7 +26,7 @@ public class AIPerformance {
         strategies.add(new RandomStrategy());
         strategies.add(new EliminateStrategy());
         strategies.add(new FrequencyStrategy());
-        strategies.add(new MyAi());
+        strategies.add(new SupremeAi());
 
         Map<IStrategy, AIStatistics> stats = new HashMap<>();
         System.out.println("\nStrategies running...");
