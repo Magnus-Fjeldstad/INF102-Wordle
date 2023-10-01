@@ -45,6 +45,8 @@ This method has two key operations:
 
 ## Task 4 - Make your own (better) AI
 
+### `FinalAI.Java`
+
 For this task you do not need to give a runtime analysis.
 Instead, you must explain your code. What was your idea for getting a better result? What is your strategy?
 

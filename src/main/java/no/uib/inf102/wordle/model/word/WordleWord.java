@@ -87,7 +87,7 @@ public class WordleWord implements Iterable<WordleCharacter> {
         for (WordleCharacter wordleChar : word) { //O(k)
             sb.append(wordleChar.letter); //O(1)
         }
-        return sb.toString();
+        return sb.toString(); //O(1)
     }
 
     @Override

@@ -95,7 +95,7 @@ public class WordleWordList {
 		List<String> filteredPossibleAnswers = new ArrayList<>(); // O(1)
 
 		for (String currentGuess : possibleAnswers) {// O(m)
-			if (WordleWord.isPossibleWord(currentGuess, feedback)) { //O(1)
+			if (WordleWord.isPossibleWord(currentGuess, feedback)) { //O(k)
 				filteredPossibleAnswers.add(currentGuess); //O(1)
 			}
 		}
