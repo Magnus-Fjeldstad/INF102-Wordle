@@ -82,10 +82,10 @@ public class WordleWord implements Iterable<WordleCharacter> {
      * 
      * @return
      */
-    public String getWordString() {
-        StringBuilder sb = new StringBuilder();
-        for (WordleCharacter wordleChar : word) {
-            sb.append(wordleChar.letter);
+    public String getWordString() { //O(k)
+        StringBuilder sb = new StringBuilder(); //O(1)
+        for (WordleCharacter wordleChar : word) { //O(k)
+            sb.append(wordleChar.letter); //O(1)
         }
         return sb.toString();
     }
@@ -117,8 +117,8 @@ public class WordleWord implements Iterable<WordleCharacter> {
      * @param feedback
      * @return true if the word adheres to the feedback
      */
-    public static boolean isPossibleWord(String word, WordleWord feedback) {
-        WordleWord otherFeedback = WordleAnswer.matchWord(feedback.getWordString(), word);
+    public static boolean isPossibleWord(String word, WordleWord feedback) { //O(2*k) or O(k)
+        WordleWord otherFeedback = WordleAnswer.matchWord(feedback.getWordString(), word); 
         return otherFeedback.equals(feedback);
     }
 

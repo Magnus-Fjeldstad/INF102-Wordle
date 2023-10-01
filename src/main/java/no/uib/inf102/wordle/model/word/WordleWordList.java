@@ -85,25 +85,21 @@ public class WordleWordList {
 	/**
 	 * Eliminates words from the possible answers list using the given feedback.
 	 * 
-	 * isPossibleWord uses two O(n) functions from different classes:
-	 * - {@link WordleAnswer#matchWords(String, String) WordleAnswer.matchWords}
-	 * - {@link WordleWord#getWordsString() WordleWord.getWordsString}
-	 * 
 	 * @param feedback The feedback to use for eliminating words.
 	 */
-	public void eliminateWords(WordleWord feedback) {
+	public void eliminateWords(WordleWord feedback) { // O(m*k)
 		if (feedback == null) {
 			return;
 		}
 
-		List<String> filteredPossibleAnswers = new ArrayList<>();
+		List<String> filteredPossibleAnswers = new ArrayList<>(); // O(1)
 
 		for (String currentGuess : possibleAnswers) {// O(m)
 			if (WordleWord.isPossibleWord(currentGuess, feedback)) { //O(1)
 				filteredPossibleAnswers.add(currentGuess); //O(1)
 			}
 		}
-		possibleAnswers = filteredPossibleAnswers;
+		possibleAnswers = filteredPossibleAnswers; //O(1)
 	}
 
 	/**
@@ -140,17 +136,17 @@ public class WordleWordList {
 	 * @return a list of maps where each map tracks the most frequent chars at each
 	 *         index
 	 */
-	private List<HashMap<Character, Integer>> mapCommonLetters(List<String> possibleAnswers) {
-		List<HashMap<Character, Integer>> charCountMapsList = new ArrayList<>();
+	private List<HashMap<Character, Integer>> mapCommonLetters(List<String> possibleAnswers) { // O(m*k)
+		List<HashMap<Character, Integer>> charCountMapsList = new ArrayList<>(); // O(1)
 
-		for (int i = 0; i < wordLength(); i++) {
-			charCountMapsList.add(new HashMap<>());
+		for (int i = 0; i < wordLength(); i++) { // O(k)
+			charCountMapsList.add(new HashMap<>()); // O(1)
 		}
 
-		for (String word : possibleAnswers) {
-			for (int i = 0; i < wordLength(); i++) {
-				char c = word.charAt(i);
-				charCountMapsList.get(i).put(c, charCountMapsList.get(i).getOrDefault(c, 0) + 1);
+		for (String word : possibleAnswers) { // O(m)
+			for (int i = 0; i < wordLength(); i++) { // O(k)
+				char c = word.charAt(i); // O(1)
+				charCountMapsList.get(i).put(c, charCountMapsList.get(i).getOrDefault(c, 0) + 1); // O(1)
 			}
 		}
 		return charCountMapsList;
@@ -160,22 +156,22 @@ public class WordleWordList {
 	 * 
 	 * @return the best possible word given the possible answers
 	 */
-	public String getBestWord() {
-		List<HashMap<Character, Integer>> charCountMapsList = mapCommonLetters(possibleAnswers());
+	public String getBestWord() { // O(m*k)
+		List<HashMap<Character, Integer>> charCountMapsList = mapCommonLetters(possibleAnswers()); // O(m*k)
 		String bestWord = "";
 		int highScore = -1;
 
-		for (String word : possibleAnswers()) {
+		for (String word : possibleAnswers()) { // O(m)
 			int wordPoints = 0;
 
-			for (int currentMap = 0; currentMap < charCountMapsList.size(); currentMap++) {
-				char c = word.charAt(currentMap);
-				wordPoints += charCountMapsList.get(currentMap).getOrDefault(c, 0);
+			for (int currentMap = 0; currentMap < charCountMapsList.size(); currentMap++) { // O(k)
+				char c = word.charAt(currentMap); // O(1)
+				wordPoints += charCountMapsList.get(currentMap).getOrDefault(c, 0); // O(1)
 			}
 			
-			if (wordPoints > highScore) {
-				highScore = wordPoints;
-				bestWord = word;
+			if (wordPoints > highScore) { // O(1)
+				highScore = wordPoints; // O(1)
+				bestWord = word; // O(1)
 			}
 		
 		}

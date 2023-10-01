@@ -78,13 +78,13 @@ public class WordleAnswer {
      * @param answer
      * @return
      */
-    public static WordleWord matchWord(String guess, String answer) {
+    public static WordleWord matchWord(String guess, String answer) { //O(k)
         int wordLength = answer.length();
         if (guess.length() != wordLength)
             throw new IllegalArgumentException("Guess and answer must have same number of letters but guess = " + guess
                     + " and answer = " + answer);
 
-        HashMap<Character, Integer> answerChars = new HashMap<>();
+        HashMap<Character, Integer> answerChars = new HashMap<>(); //O(1)
 
         for (int i = 0; i < wordLength; i++) { //O(k)
             answerChars.put(answer.charAt(i), answerChars.getOrDefault(answer.charAt(i), 0) + 1);
@@ -94,20 +94,20 @@ public class WordleAnswer {
         for (int i = 0; i < wordLength; i++) { //O(k)
             char guessChar = guess.charAt(i);
 
-            if (guessChar == answer.charAt(i)) {
-                answerChars.put(guessChar,  answerChars.get(guessChar) - 1);
-                feedback[i] = AnswerType.CORRECT;
+            if (guessChar == answer.charAt(i)) { //O(1)
+                answerChars.put(guessChar,  answerChars.get(guessChar) - 1); //O(1)
+                feedback[i] = AnswerType.CORRECT; //O(1)
             } else {
-                feedback[i] = AnswerType.WRONG;
+                feedback[i] = AnswerType.WRONG; //O(1)
             }
         }
 
         for (int i = 0; i < wordLength; i++) { //O(k)
             char guessChar = guess.charAt(i);
 
-            if (feedback[i] == AnswerType.WRONG && answerChars.getOrDefault(guessChar, 0) > 0) {
-                answerChars.put(guessChar, answerChars.get(guessChar) - 1);
-                feedback[i] = AnswerType.WRONG_POSITION;
+            if (feedback[i] == AnswerType.WRONG && answerChars.getOrDefault(guessChar, 0) > 0) { //O(1)
+                answerChars.put(guessChar, answerChars.get(guessChar) - 1); //O(1)
+                feedback[i] = AnswerType.WRONG_POSITION; //O(1)
             }
             
         }

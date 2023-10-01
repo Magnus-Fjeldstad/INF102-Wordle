@@ -13,11 +13,11 @@ public class FrequencyStrategy implements IStrategy {
     }
 
     @Override
-    public String makeGuess(WordleWord feedback) {
-        if (feedback != null) {
-            guesses.eliminateWords(feedback);
+    public String makeGuess(WordleWord feedback) { // O(m*k)
+        if (feedback != null) { 
+            guesses.eliminateWords(feedback); // O(m*k)
         }
-       return guesses.getBestWord();
+       return guesses.getBestWord(); // O(m*k)
     }
 
     @Override

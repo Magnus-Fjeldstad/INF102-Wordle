@@ -31,6 +31,8 @@ The runtime should be expressed using these three parameters:
 
   **Overall Time Complexity**: \(O(k)\)
 
+  - See the methods used for more in depht comments on the runtime
+
 ## Task 2 - EliminateStrategy
 
 - `WordleWordList::eliminateWords`: O(m*k)
@@ -48,10 +50,14 @@ Considering the provided methods, let's express the runtime using the following 
 
 Combining these two steps, the overall time complexity of the `eliminateWords` method is \(O(m \* k)\).
 
+- See the methods used for more in depht comments on the runtime
+
 ## Task 3 - FrequencyStrategy
 
 - `FrequencyStrategy::makeGuess`: \(O(m \* k)\)
   - This method's time complexity is primarily influenced by two key operations. First, it conditionally invokes the `eliminateWords` method, which has a complexity of \(O(m \* k)\) due to filtering operations on the list of possible answers. Second, the method calls `getBestWord` which, in evaluating the best word based on frequency criteria, also operates with a complexity of \(O(m \* k)\). Since both of these are linear with respect to the number of possible answers (`m`) and the length of words (`k`), the combined runtime is \(O(m \* k)\).
+
+  - See the methods used for more in depht comments on the runtime
 
 
 # Task 4 - Make your own (better) AI
@@ -59,4 +65,19 @@ Combining these two steps, the overall time complexity of the `eliminateWords` m
 For this task you do not need to give a runtime analysis.
 Instead, you must explain your code. What was your idea for getting a better result? What is your strategy?
 
-_My idea for implementing my own Wordle AI is to employ a frequency strategy on the first guess. This is mathematically the best word choice based on the list of possible answers. Then, on the second guess, I remove all impossible words from the list, eliminating any words that do not contain the possible answers. In contrast to the frequency strategy, I also eliminate words marked as CORRECT in an attempt to maximize the feedback on the second guess. The feedback from the second guess is then used to remove the words I obtained from that guess. Afterward, if I have found 2 or more green or yellow letters, I revert to the original frequency strategy. The idea here is that I have received enough feedback from the first two guesses to make more accurate guesses on the third guess than the fourth, thus reducing the number of times the AI needs to use 4 or more guesses._
+_For task 4 ive tried many different ideas, removing the CORRECT letters from allWords and finding the best word whitout CORRECT letters, Entropy Strat based on a youtube video on worlde by 3Blue1Brown and some more. In the end i figured i try to analyse where frequency strategy struggles, my findings where that frequency struggels when there are 3 or more correct letters. This is becuase the way i implemented frequency startegy the "frequency map" shrinks in size by each guess. So lets say i have 5 words left
+
+Bandy
+Bobby
+Limit
+Snake
+Adieu
+
+By the way i implemented frequency it will always choose the word with the higest "wordpoint" and wordpoint is determined by how many times a letter occurs in the given index of a word. So in this case it would probably choose Bobby. I´ve seen many times that it will have 3 or even 4 correct letters and would still use 2 to 3 guesses to get the right word.
+
+Then i figured my new Startegy. When there are 3 or more correct letters in the feedBack a new strategy is used to find the "bestWord". I made a Class that uses a method that gets the remaining possible chars at the indecies that does not contain an correct letter. Then it finds a word with the most unique charachters from the original AllWords. Then with the help of that feedback it will more efficently find the Correct answer with fewer guesses than frequency. 
+
+In my test´s running 20 000 games the FinalAI manages to get 20000/20000 correct while frequecny only get 19875/20000. The FinalAI even manages to guess it in slighty less avg guesses.
+
+I´ve also left in one of my other "AI's" this is the "BestAI". It uses an entropy based scoring system to get the best word. You can take a look if you want but it´s the "FinalAI" that is my entry for task 4.
+_
