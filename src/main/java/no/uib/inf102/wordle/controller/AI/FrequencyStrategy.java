@@ -1,7 +1,5 @@
 package no.uib.inf102.wordle.controller.AI;
 
-import java.util.List;
-
 import no.uib.inf102.wordle.model.word.WordleWord;
 import no.uib.inf102.wordle.model.word.WordleWordList;
 
@@ -25,6 +23,6 @@ public class FrequencyStrategy implements IStrategy {
     @Override
     public void reset() {
         guesses = new WordleWordList();
-    }
+    }    
 }
 

@@ -17,19 +17,21 @@ public class WordleWord implements Iterable<WordleCharacter> {
     private List<WordleCharacter> word;
 
     /**
-     * Creates a WordleWord by matching the characters in the given string to the given AnswerType array.
+     * Creates a WordleWord by matching the characters in the given string to the
+     * given AnswerType array.
+     * 
      * @param word
      * @param feedback
      */
     public WordleWord(String word, AnswerType[] feedback) {
-    	if(word.length()!=feedback.length)
-    		throw new IllegalArgumentException("word and feedback must have same length");
-    	for(AnswerType type : feedback) {
-    		if(type==AnswerType.BLANK) {
-    			throw new IllegalArgumentException("Feedback can not contain BLANK");
-    		}
-    	}
-    		
+        if (word.length() != feedback.length)
+            throw new IllegalArgumentException("word and feedback must have same length");
+        for (AnswerType type : feedback) {
+            if (type == AnswerType.BLANK) {
+                throw new IllegalArgumentException("Feedback can not contain BLANK");
+            }
+        }
+
         this.word = new ArrayList<>();
         for (int i = 0; i < word.length(); i++) {
             char c = word.charAt(i);
@@ -77,6 +79,7 @@ public class WordleWord implements Iterable<WordleCharacter> {
 
     /**
      * Returns the WordleWord as a String without AnswerType.
+     * 
      * @return
      */
     public String getWordString() {
@@ -124,7 +127,7 @@ public class WordleWord implements Iterable<WordleCharacter> {
         return Objects.hash(word);
     }
 
-    @Override 
+    @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
@@ -136,4 +139,33 @@ public class WordleWord implements Iterable<WordleCharacter> {
         return Objects.equals(word, other.word);
     }
 
+    /**
+     * 
+     * @return Returns the number of letters that are correct.
+     */
+    public int getCorrectLetters() {
+        int counter = 0;
+        for (WordleCharacter wc : this) {
+            if (wc.answerType == AnswerType.CORRECT) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+    /**
+     * 
+     * @return Returns the index of WRONG letters.
+     */
+    public List<Integer> getWrongLetterIndices() {
+        List<Integer> wrongIndices = new ArrayList<>();
+        int index = 0;
+        for (WordleCharacter wc : this) {
+            if (wc.answerType == AnswerType.WRONG) {
+                wrongIndices.add(index);
+            }
+            index++;
+        }
+        return wrongIndices;
+    }
+    
 }

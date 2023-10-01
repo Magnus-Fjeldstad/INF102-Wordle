@@ -1,7 +1,5 @@
 package no.uib.inf102.wordle.controller.AI;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import no.uib.inf102.wordle.model.word.WordleWord;

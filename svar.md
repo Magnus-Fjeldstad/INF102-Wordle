@@ -18,7 +18,7 @@ The runtime should be expressed using these three parameters:
     * *Insert description of why the method has the given runtime*
 
 ## Task 3 - FrequencyStrategy
-* `FrequencyStrategy::makeGuess`: O(?)
+* `FrequencyStrategy::makeGuess`: O(m*k)
     * *Insert description of why the method has the given runtime*
 
 

@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
 
 
 import no.uib.inf102.wordle.resources.GetWords;
@@ -141,7 +140,7 @@ public class WordleWordList {
 	 * @return a list of maps where each map tracks the most frequent chars at each
 	 *         index
 	 */
-	public List<HashMap<Character, Integer>> mapCommonLetters(List<String> possibleAnswers) {
+	private List<HashMap<Character, Integer>> mapCommonLetters(List<String> possibleAnswers) {
 		List<HashMap<Character, Integer>> charCountMapsList = new ArrayList<>();
 
 		for (int i = 0; i < wordLength(); i++) {
