@@ -18,7 +18,7 @@ The runtime should be expressed using these three parameters:
 4. **Second loop over `wordleWords`**: Runs `k` times with O(1) operations, hence O(k).
 5. **Third loop over `wordleWords`**: Similar to above, it's O(k).
 
-**Overall Time Complexity**: Combining the complexities, it is O(3k), but we drop constants in Big-O, so it's O(k).
+**Overall Time Complexity**: Combining the complexities, it is O(3k), but we drop constants in Big-O, so it's O(k). One could also argue that it's O(1) since K is allways equal to 5 in our uses.
 
 > Check the methods used for more in-depth comments on the runtime.
 
