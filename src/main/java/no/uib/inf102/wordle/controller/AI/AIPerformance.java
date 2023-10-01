@@ -16,21 +16,17 @@ import no.uib.inf102.wordle.model.word.WordleWord;
  */
 public class AIPerformance {
 
-    public static final int N_GAMES = 2000;
+    public static final int N_GAMES = 20000;
     public static final int MAX_N_GUESSES = 20;
     static long seed = 14212l;
 
     public static void main(String[] args) {
         // Strategies
         List<IStrategy> strategies = new ArrayList<>();
-        strategies.add(new RandomStrategy());
-        strategies.add(new EliminateStrategy());
+        // strategies.add(new RandomStrategy());
+        // strategies.add(new EliminateStrategy());
         strategies.add(new FrequencyStrategy());
-        //strategies.add(new SupremeAi());
-        //strategies.add(new BetterAi());
-        //strategies.add(new MyAi());
-        //strategies.add(new BestAI());
-        strategies.add(new SjefenAi());
+        strategies.add(new BestAI());
         strategies.add(new FinalAI());
 
         Map<IStrategy, AIStatistics> stats = new HashMap<>();

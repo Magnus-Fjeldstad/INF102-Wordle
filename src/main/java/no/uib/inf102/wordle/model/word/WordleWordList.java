@@ -179,8 +179,6 @@ public class WordleWordList {
 			}
 		
 		}
-		//System.out.println(wordMap);
 		return bestWord;
 	}
-	
 }

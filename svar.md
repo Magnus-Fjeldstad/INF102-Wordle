@@ -10,8 +10,24 @@ The runtime should be expressed using these three parameters:
 
 
 ## Task 1 - matchWord
-* `WordleAnswer::matchWord`: O(?)
-    * The matchWord method is O(k) since the method have 3 single nested foreloops witch each iterates over the wordlength withch in this case is 5. The method uses a HashMap to store Characters -> Integers. To get and put from an HashMap is both O(1). 
+* `WordleAnswer::matchWord`: O(k)/O(1)
+    1. **Checking Length Equality**: This is an \(O(1)\) operation.
+   
+    2. **Initialization of the HashMap**: This is done in constant time, \(O(1)\).
+    
+    3. **Looping over `wordleWords`**:
+    Since this loop runs `k` times and consists of \(O(1)\) operations inside, its complexity is \(O(k)\).
+    
+    4. **Second loop over `wordleWords`**:
+    Similarly, this loop also runs `k` times with \(O(1)\) operations, so its complexity is also \(O(k)\).
+    
+    5. **Third loop over `wordleWords`**:
+    Yet again, the loop runs for `k` iterations with constant-time operations, making it \(O(k)\).
+
+    Combining the loops' complexities, the overall time complexity is \(O(3k)\). However, in big O notation, we drop constant multipliers, leaving us with:
+
+    **Overall Time Complexity**: \(O(k)\)
+
 
 ## Task 2 - EliminateStrategy
 * `WordleWordList::eliminateWords`: O(?)

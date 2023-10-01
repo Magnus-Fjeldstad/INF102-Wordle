@@ -152,6 +152,7 @@ public class WordleWord implements Iterable<WordleCharacter> {
         }
         return counter;
     }
+    
     /**
      * 
      * @return Returns the index of WRONG letters.

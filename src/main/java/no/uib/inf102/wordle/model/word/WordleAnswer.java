@@ -86,12 +86,12 @@ public class WordleAnswer {
 
         HashMap<Character, Integer> answerChars = new HashMap<>();
 
-        for (int i = 0; i < wordLength; i++) {
+        for (int i = 0; i < wordLength; i++) { //O(k)
             answerChars.put(answer.charAt(i), answerChars.getOrDefault(answer.charAt(i), 0) + 1);
         }
 
         AnswerType[] feedback = new AnswerType[wordLength];
-        for (int i = 0; i < wordLength; i++) {
+        for (int i = 0; i < wordLength; i++) { //O(k)
             char guessChar = guess.charAt(i);
 
             if (guessChar == answer.charAt(i)) {
@@ -102,7 +102,7 @@ public class WordleAnswer {
             }
         }
 
-        for (int i = 0; i < wordLength; i++) {
+        for (int i = 0; i < wordLength; i++) { //O(k)
             char guessChar = guess.charAt(i);
 
             if (feedback[i] == AnswerType.WRONG && answerChars.getOrDefault(guessChar, 0) > 0) {

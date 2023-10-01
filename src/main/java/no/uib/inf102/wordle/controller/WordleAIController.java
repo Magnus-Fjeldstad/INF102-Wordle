@@ -7,9 +7,9 @@ import javax.swing.Timer;
 
 import no.uib.inf102.wordle.controller.AI.BestAI;
 import no.uib.inf102.wordle.controller.AI.EliminateStrategy;
+import no.uib.inf102.wordle.controller.AI.FinalAI;
 import no.uib.inf102.wordle.controller.AI.IStrategy;
 import no.uib.inf102.wordle.controller.AI.RandomStrategy;
-import no.uib.inf102.wordle.controller.AI.SjefenAi;
 import no.uib.inf102.wordle.controller.AI.FrequencyStrategy;
 import no.uib.inf102.wordle.model.GameState;
 import no.uib.inf102.wordle.model.word.WordleWord;
@@ -35,9 +35,9 @@ public class WordleAIController implements KeyListener {
         //this.AI = new RandomStrategy();
         //this.AI = new EliminateStrategy();
         //this.AI = new FrequencyStrategy();
-        //this.AI = new SupremeAi();
-        //this.AI = new BestAI();
-        this.AI = new SjefenAi();
+        // this.AI = new BestAI();
+
+        this.AI = new FinalAI();
 
         view.addKeyListener(this);
         view.setFocusable(true);
