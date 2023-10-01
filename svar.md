@@ -39,6 +39,9 @@ This method has two key operations:
 1. Invoking `eliminateWords` which is O(m*k).
 2. Calling `getBestWord` which evaluates the best word based on frequency and is O(m*k).
 
+`getBestWord` uses a helper method called `mapCommonLetters` that is also O(m*k) 
+
+
 **Overall Time Complexity**: Combined, the runtime is O(m * k).
 
 > Check the methods used for more in-depth comments on the runtime.

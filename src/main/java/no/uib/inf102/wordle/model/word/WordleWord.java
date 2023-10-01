@@ -117,8 +117,8 @@ public class WordleWord implements Iterable<WordleCharacter> {
      * @param feedback
      * @return true if the word adheres to the feedback
      */
-    public static boolean isPossibleWord(String word, WordleWord feedback) { //O(2*k) or O(k)
-        WordleWord otherFeedback = WordleAnswer.matchWord(feedback.getWordString(), word); 
+    public static boolean isPossibleWord(String word, WordleWord feedback) { //O(2*k) or O(k) 
+        WordleWord otherFeedback = WordleAnswer.matchWord(feedback.getWordString(), word); //matchWord is O(k) and getWordString is O(k)
         return otherFeedback.equals(feedback);
     }
 

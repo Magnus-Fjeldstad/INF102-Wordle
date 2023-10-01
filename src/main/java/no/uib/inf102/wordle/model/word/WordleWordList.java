@@ -164,7 +164,7 @@ public class WordleWordList {
 		for (String word : possibleAnswers()) { // O(m)
 			int wordPoints = 0;
 
-			for (int currentMap = 0; currentMap < charCountMapsList.size(); currentMap++) { // O(k)
+			for (int currentMap = 0; currentMap < charCountMapsList.size(); currentMap++) { // O(k) since list size is k
 				char c = word.charAt(currentMap); // O(1)
 				wordPoints += charCountMapsList.get(currentMap).getOrDefault(c, 0); // O(1)
 			}
