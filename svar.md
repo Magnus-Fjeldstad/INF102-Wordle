@@ -33,7 +33,7 @@ The runtime should be expressed using these three parameters:
 
 ## Task 2 - EliminateStrategy
 
-- `WordleWordList::eliminateWords`: O(?)
+- `WordleWordList::eliminateWords`: O(m*k)
   # Time Complexity Analysis
 
 Considering the provided methods, let's express the runtime using the following parameters:
@@ -46,12 +46,13 @@ Considering the provided methods, let's express the runtime using the following 
 1. **Iterating over `possibleAnswers`**: The loop runs `m` times.
 2. **Calling `isPossibleWord` for each word in `possibleAnswers`**: Given the `matchWord` and `getWordString` methods, the `isPossibleWord` method has a complexity of \(O(k)\).
 
-Combining these two steps, the overall time complexity of the `eliminateWords` method is \(O(m \times k)\).
+Combining these two steps, the overall time complexity of the `eliminateWords` method is \(O(m \* k)\).
 
 ## Task 3 - FrequencyStrategy
 
-- `FrequencyStrategy::makeGuess`: O(m\*k)
-  - _Insert description of why the method has the given runtime_
+- `FrequencyStrategy::makeGuess`: \(O(m \* k)\)
+  - This method's time complexity is primarily influenced by two key operations. First, it conditionally invokes the `eliminateWords` method, which has a complexity of \(O(m \* k)\) due to filtering operations on the list of possible answers. Second, the method calls `getBestWord` which, in evaluating the best word based on frequency criteria, also operates with a complexity of \(O(m \* k)\). Since both of these are linear with respect to the number of possible answers (`m`) and the length of words (`k`), the combined runtime is \(O(m \* k)\).
+
 
 # Task 4 - Make your own (better) AI
 
